@@ -1,3 +1,5 @@
+import {IrewriteMessage} from "@/interfaces/i";
+
 export const handleCodeBoxes =(input:any,setOutput:Function)=>{
     const parts = input.split(/(```[\s\S]*?```)/g);
     let result =  parts.map((part:any) => {
@@ -16,7 +18,7 @@ export const handleCodeBoxes =(input:any,setOutput:Function)=>{
                 text: part.trim()
             };
         }
-    }).filter(obj => obj.text);
+    }).filter((obj:IrewriteMessage) => obj.text);
 
     if (result.length > 0 && result[result.length - 1].text === 'null') {
         result.pop();
