@@ -5,17 +5,23 @@ import {fetchEventSource} from "@microsoft/fetch-event-source";
 import {handleCodeBoxes} from "@/utils/utils";
 import {CodeBlock, irBlack as codepen} from "react-code-blocks";
 import useLocalStorage from "react-use-localstorage";
+import Select from "react-select";
+import {AIModels, languages} from "@/utils/globalVariables";
+import ReactSwitch from "react-switch";
 
 const RewritePage = ()=>{
 
-    const [accessToken, setAccessToken] = useLocalStorage('accessToken', null)
+    const [accessToken,setAccessToken] = useLocalStorage('accessToken', null)
 
     const [userInput,setUserInput] = useState("")
+
+    const [selectedLanguage , setSelectedLanguage] = useState("English")
+
+    const [advancedMenuOpen , setAdvancedMenuOpen] = useState(false)
 
     const [messages,setMessages] = useState<string>("")
 
     const [finalMessages , setFinalMessages] = useState<any>([])
-
 
     const postNewMessage = (text:string)=>{
         setMessages("")
@@ -32,7 +38,7 @@ const RewritePage = ()=>{
                 "max_tokens": 2048,
                 "messages": [
                     {
-                        "content": "you are a helpful assistant",
+                        "content": `you are a helpful assistant that answers me in ${selectedLanguage}`,
                         "role": "system"
                     },
                     {
@@ -50,6 +56,9 @@ const RewritePage = ()=>{
             onmessage(ev) {
                 const msg = JSON.parse(ev.data).content
                 setMessages((pr)=> `${pr}${msg}`)
+            },
+            onerror(err) {
+                setAccessToken(null)
             }
         })
     }
@@ -69,12 +78,12 @@ const RewritePage = ()=>{
 
     return(
         <>
-            <div className={'w-full flex'}>
-                <div className={'w-[40%] bg-[#FCFCFD] border-r border-[#EFEFEF]'}>
-                    <div className={'w-full lg:pl-[36px] py-[12px] border-b border-[#EFEFEF] flex items-center gap-[12px]'}>
+            <div className={'w-full flex flex-col md:flex-row'}>
+                <div className={'w-full md:w-[40%] bg-[#FCFCFD] border-r border-[#EFEFEF]'}>
+                    <div className={'w-full pl-[16px] lg:pl-[36px] py-[12px] border-b border-[#EFEFEF] flex items-center gap-[12px]'}>
                         <div>
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.5 7.5C22.5 4.99007 24.4901 3 27 3C29.5099 3 31.5 4.99007 31.5 7.5V25.5C31.5 25.8978 31.342 26.2794 31.0607 26.5607L28.0607 29.5607C27.7794 29.842 27.3978 30 27 30H7.5C6.30653 30 5.16193 29.5259 4.31802 28.682C3.47411 27.8381 3 26.6935 3 25.5C3 24.3065 3.47411 23.1619 4.31802 22.318C5.16193 21.4741 6.30653 21 7.5 21H13.5C13.8978 21 14.2794 20.842 14.5607 20.5607C14.842 20.2794 15 19.8978 15 19.5C15 19.1022 14.842 18.7206 14.5607 18.4393C14.2794 18.158 13.8978 18 13.5 18H9C8.17157 18 7.5 17.3284 7.5 16.5C7.5 15.6716 8.17157 15 9 15H13.5C14.6935 15 15.8381 15.4741 16.682 16.318C17.5259 17.1619 18 18.3065 18 19.5C18 20.6935 17.5259 21.8381 16.682 22.682C15.8381 23.5259 14.6935 24 13.5 24H7.5C7.10218 24 6.72064 24.158 6.43934 24.4393C6.15804 24.7206 6 25.1022 6 25.5C6 25.8978 6.15804 26.2794 6.43934 26.5607C6.72064 26.842 7.10218 27 7.5 27H23.3787L22.9393 26.5607C22.658 26.2794 22.5 25.8978 22.5 25.5V7.5ZM25.5 12V24.8787L27 26.3787L28.5 24.8787V12H25.5ZM28.5 9H25.5V7.5C25.5 6.64693 26.1469 6 27 6C27.8531 6 28.5 6.64693 28.5 7.5V9Z" fill="#181818"/>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M22.5 7.5C22.5 4.99007 24.4901 3 27 3C29.5099 3 31.5 4.99007 31.5 7.5V25.5C31.5 25.8978 31.342 26.2794 31.0607 26.5607L28.0607 29.5607C27.7794 29.842 27.3978 30 27 30H7.5C6.30653 30 5.16193 29.5259 4.31802 28.682C3.47411 27.8381 3 26.6935 3 25.5C3 24.3065 3.47411 23.1619 4.31802 22.318C5.16193 21.4741 6.30653 21 7.5 21H13.5C13.8978 21 14.2794 20.842 14.5607 20.5607C14.842 20.2794 15 19.8978 15 19.5C15 19.1022 14.842 18.7206 14.5607 18.4393C14.2794 18.158 13.8978 18 13.5 18H9C8.17157 18 7.5 17.3284 7.5 16.5C7.5 15.6716 8.17157 15 9 15H13.5C14.6935 15 15.8381 15.4741 16.682 16.318C17.5259 17.1619 18 18.3065 18 19.5C18 20.6935 17.5259 21.8381 16.682 22.682C15.8381 23.5259 14.6935 24 13.5 24H7.5C7.10218 24 6.72064 24.158 6.43934 24.4393C6.15804 24.7206 6 25.1022 6 25.5C6 25.8978 6.15804 26.2794 6.43934 26.5607C6.72064 26.842 7.10218 27 7.5 27H23.3787L22.9393 26.5607C22.658 26.2794 22.5 25.8978 22.5 25.5V7.5ZM25.5 12V24.8787L27 26.3787L28.5 24.8787V12H25.5ZM28.5 9H25.5V7.5C25.5 6.64693 26.1469 6 27 6C27.8531 6 28.5 6.64693 28.5 7.5V9Z" fill="#181818"/>
                             </svg>
                         </div>
                         <p className={'text-[20px] lg:text-[24px]'}>
@@ -109,7 +118,84 @@ const RewritePage = ()=>{
                             <h3 className={'mb-[12px]'}>
                                 Language
                             </h3>
-                            select
+
+                            <Select
+                                options={languages.map(i=>({value : i , label : i}))}
+                                value={{value : selectedLanguage , label : selectedLanguage}}
+                                onChange={(e)=> setSelectedLanguage(e.value)}
+                                isSearchable={true}
+                            />
+                        </div>
+
+                        <div className={'w-full'}>
+                            <div className={'flex items-center gap-[12px]'}>
+                                <ReactSwitch
+                                    checked={advancedMenuOpen}
+                                    onChange={(e)=>setAdvancedMenuOpen(e)}
+                                    onColor={"#9373EE"}
+                                    offColor={"#EFEFEF"}
+                                    checkedIcon={<></>}
+                                    uncheckedIcon={<></>}
+                                    activeBoxShadow={"none"}
+                                    handleDiameter={20}
+                                    width={44}
+                                    height={24}
+                                />
+                                <h3>
+                                    Advanced
+                                </h3>
+                            </div>
+                            <p className={'ml-[56px] text-[#747474]'}>
+                                More access for more accurate results
+                            </p>
+
+                            {advancedMenuOpen ?
+                                <div className={'w-full mt-[36px] grid grid-cols-1 lg:grid-cols-2 gap-y-[36px] gap-x-[72px]'}>
+                                    <div className={'w-full'}>
+                                        <h3 className={'mb-[12px]'}>
+                                            Lengh
+                                        </h3>
+                                        <Select
+                                            options={[{value : "Auto" , label : "Auto"}]}
+                                            value={{value : "Auto" , label : "Auto"}}
+                                            isDisabled
+                                        />
+                                    </div>
+
+                                    <div className={'w-full'}>
+                                        <h3 className={'mb-[12px]'}>
+                                            Tone of Voice
+                                        </h3>
+                                        <Select
+                                            options={[{value : "Auto" , label : "Auto"}]}
+                                            value={{value : "Auto" , label : "Auto"}}
+                                            isDisabled
+                                        />
+                                    </div>
+
+                                    <div className={'w-full'}>
+                                        <h3 className={'mb-[12px]'}>
+                                            Creativity
+                                        </h3>
+                                        <Select
+                                            options={[{value : "Auto" , label : "Auto"}]}
+                                            value={{value : "Auto" , label : "Auto"}}
+                                            isDisabled
+                                        />
+                                    </div>
+
+                                    <div className={'w-full'}>
+                                        <h3 className={'mb-[12px]'}>
+                                            Point of View
+                                        </h3>
+                                        <Select
+                                            options={[{value : "Auto" , label : "Auto"}]}
+                                            value={{value : "Auto" , label : "Auto"}}
+                                            isDisabled
+                                        />
+                                    </div>
+                                </div> : <></>
+                            }
                         </div>
 
                         <div className={'w-full'}>
@@ -118,9 +204,12 @@ const RewritePage = ()=>{
                             </h3>
 
                             <div className={'w-full flex flex-col md:flex-row items-center justify-between gap-[18px]'}>
-                                select
+                                <Select
+                                    className={'w-full md:w-[45%]'}
+                                    options={AIModels.map(i=>({value : i , label : i}))}
+                                />
                                 <button
-                                    className={'w-[50%] bg-[#9373EE] rounded-[12px] py-[16px] flex items-center text-white'}
+                                    className={'w-full md:w-[45%] h-[36px] bg-[#9373EE] rounded-[4px] flex items-center text-white'}
                                     onClick={handleSubmitBtnClick}
                                 >
                                     <p className={'w-full text-center'}>
@@ -132,7 +221,7 @@ const RewritePage = ()=>{
                     </div>
                 </div>
 
-                <div className={'w-[60%] px-[36px] pt-[80px] flex flex-col gap-[8px]'}>
+                <div className={'w-full md:w-[60%] p-[16px] lg:px-[36px] lg:pt-[80px] flex flex-col gap-[8px]'}>
                     {finalMessages.filter(item => (item !== null && item.text !== "")).map((item,i) => {
                         if (item.type === 'code'){
                             if (item.title === ""){

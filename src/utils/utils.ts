@@ -18,5 +18,9 @@ export const handleCodeBoxes =(input,setOutput)=>{
         }
     }).filter(obj => obj.text);
 
+    if (result.length > 0 && result[result.length - 1].text === 'null') {
+        result.pop();
+    }
+
     setOutput(result)
 }
