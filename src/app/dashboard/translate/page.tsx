@@ -56,7 +56,7 @@ const TranslatePage = ()=>{
                 setMessages((pr)=>[...pr,msg])
             },
             onerror(err) {
-                setAccessToken(null)
+                setAccessToken("null")
             }
         })
     }
