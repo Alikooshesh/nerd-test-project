@@ -1,4 +1,4 @@
-export const handleCodeBoxes =(input,setOutput)=>{
+export const handleCodeBoxes =(input:any,setOutput:Function)=>{
     const parts = input.split(/(```[\s\S]*?```)/g);
     let result =  parts.map(part => {
         if (part.startsWith('```') && part.endsWith('```')) {
