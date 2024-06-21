@@ -18,7 +18,7 @@ const DashboardLayout = ({children}:Iprops)=>{
     useEffect(()=>{
         if (!accessToken || accessToken === "null"){
             const at = prompt("give me an access token")
-            setAccessToken(at)
+            setAccessToken(at ?? "null")
         }
     },[accessToken])
 
