@@ -61,7 +61,7 @@ const TranslatePage = ()=>{
         })
     }
 
-    const handleUserInputChange = (e)=>{
+    const handleUserInputChange = (e:any)=>{
         setUserInput(e.target.value)
 
         if (timer){
