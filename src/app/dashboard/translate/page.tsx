@@ -14,7 +14,7 @@ const TranslatePage = ()=>{
 
     const [messages,setMessages] = useState<string[]>([])
 
-    const [langList,setLangList] = useState(['English','Spanish','Persian'])
+    const [langList,setLangList] = useState<string[]>(['English','Spanish','Persian'])
 
     const [inputLang , setInputLang] = useState("English")
     const [outputLang , setOutputLang] = useState("Spanish")
@@ -73,8 +73,7 @@ const TranslatePage = ()=>{
         setTimer(newTimer);
     }
 
-    const handleTimeout = (text) => {
-        console.log(text)
+    const handleTimeout = (text:string) => {
         if (text.length > 0){
             postNewMessage(text, inputLang , outputLang)
         }
