@@ -4,7 +4,7 @@ export default function Home() {
 
   return (
     <>
-      <Link href={"dashboard/translator"}>
+      <Link href={"dashboard/translate"}>
           translator
       </Link>
     </>
