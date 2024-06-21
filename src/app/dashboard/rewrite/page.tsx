@@ -79,7 +79,6 @@ const RewritePage = ()=>{
 
     return(
         <>
-            {console.log(finalMessages)}
             <div className={'w-full flex flex-col md:flex-row'}>
                 <div className={'w-full md:w-[40%] bg-[#FCFCFD] border-r border-[#EFEFEF]'}>
                     <div className={'w-full pl-[16px] lg:pl-[36px] py-[12px] border-b border-[#EFEFEF] flex items-center gap-[12px]'}>
