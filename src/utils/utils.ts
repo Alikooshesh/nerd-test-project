@@ -1,6 +1,6 @@
 export const handleCodeBoxes =(input:any,setOutput:Function)=>{
     const parts = input.split(/(```[\s\S]*?```)/g);
-    let result =  parts.map(part => {
+    let result =  parts.map((part:any) => {
         if (part.startsWith('```') && part.endsWith('```')) {
             const language = part.match(/```(.*?)\n/)[1];
             const code = part.replace(/```.*?\n|\n```/g, '');
