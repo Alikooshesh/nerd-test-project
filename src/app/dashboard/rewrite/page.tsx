@@ -249,7 +249,7 @@ const RewritePage = ()=>{
                                         <div className={'text-[12px]'}>
                                             <CodeBlock
                                                 text={item.text}
-                                                language={item.title}
+                                                language={item.title ?? undefined}
                                                 showLineNumbers={false}
                                                 theme={codepen}
                                             />
