@@ -3,8 +3,11 @@
 import {useEffect, useState} from "react";
 import {fetchEventSource} from "@microsoft/fetch-event-source";
 import {handleCodeBoxes} from "@/utils/utils";
+import useLocalStorage from "react-use-localstorage";
 
 const TranslatePage = ()=>{
+
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', null)
 
     const [userInput,setUserInput] = useState("")
     const [outputText , setOutputText] = useState("")
@@ -21,11 +24,11 @@ const TranslatePage = ()=>{
     const postNewMessage = (text:string,inputLanguage:string,outputLanguage:string)=>{
         setOutputText("")
         setMessages([])
-        fetchEventSource('http://5.78.55.161:8000/v1/api/translates/generate_translate/',{
+        fetchEventSource(`${process.env.NEXT_PUBLIC_BASE_API_URL}/translates/generate_translate/`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization' : 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOiJkNDY1MzJiOS00YjIyLTQ5ZDQtYWViYi01ZmIyNzAyOWE4MTYiLCJpYXQiOjE3MTg5NTA4NTEsImV4cCI6MTcxODk2ODg1MX0.PMfQec7OSHw0kb0_mMh8GCfQv5ku8ammKtg0n5AzspaXfFsGSnLsvrS_XNMOitcMCbWmgHJxQcYuYLGMgxC7IQ',
+                'Authorization' : `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
                 "document_name": "New Document",
@@ -62,7 +65,7 @@ const TranslatePage = ()=>{
             clearTimeout(timer)
         }
 
-        const newTimer = setTimeout(()=>handleTimeout(e.target.value),1500)
+        const newTimer = setTimeout(()=>handleTimeout(e.target.value),500)
 
         setTimer(newTimer);
     }

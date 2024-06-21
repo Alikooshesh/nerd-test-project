@@ -1,8 +1,9 @@
 'use client'
 
-import {ReactElement} from "react";
+import {ReactElement, useEffect} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import useLocalStorage from "react-use-localstorage";
 
 interface Iprops{
     children : ReactElement
@@ -10,7 +11,16 @@ interface Iprops{
 
 const DashboardLayout = ({children}:Iprops)=>{
 
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', null)
+
     const pathname = usePathname()
+
+    useEffect(()=>{
+        if (!accessToken){
+            const at = prompt("give me an access token")
+            setAccessToken(at)
+        }
+    },[])
 
     return(
         <div className={'w-full h-screen flex flex-col md:flex-row'}>

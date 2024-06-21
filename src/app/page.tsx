@@ -1,15 +1,12 @@
-'use client'
-
-import Image from "next/image";
-import {fetchEventSource} from "@microsoft/fetch-event-source";
-import {useEffect, useState} from "react";
+import Link from "next/link";
 
 export default function Home() {
 
   return (
     <>
-      <p>
-      </p>
+      <Link href={"dashboard/translator"}>
+          translator
+      </Link>
     </>
   );
 }
