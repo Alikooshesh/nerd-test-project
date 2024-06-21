@@ -85,6 +85,11 @@ const TranslatePage = ()=>{
         setOutputText("")
     }
 
+    const handleCopy = (text : string)=>{
+        navigator.clipboard.writeText(text)
+            .then(res => alert("text copied to clipboard"))
+    }
+
     useEffect(()=>{
         if (userInput.length > 0){
             postNewMessage(userInput, inputLang , outputLang)
@@ -105,11 +110,11 @@ const TranslatePage = ()=>{
 
     return(
         <>
-            <div className={'w-full min-h-screen p-[16px] lg:p-[24px]'}>
+            <div className={'w-full p-[16px] lg:p-[24px]'}>
                 <div className={'w-fit px-[12px] py-[4px] rounded-[24px] bg-[#E7E8EA] text-[#20262E] flex items-center gap-[16px]'}>
                     {langList.map(item => <span key={`in-lang-${item}`} onClick={()=> setInputLang(item)} className={item === inputLang ? 'px-[8px] py-[4px] bg-[#20262E] text-[#F1FDFF] rounded-[16px]' : 'px-[8px] py-[4px] cursor-pointer'}>{item}</span>)}
                 </div>
-                <div className={'mt-[12px]'}>
+                <div className={'mt-[12px] relative'}>
                     <textarea
                         dir={"auto"}
                         className={'w-full p-[8px] lg:px-[16px] bg-[#F8F8F8] rounded-[8px] resize-none outline-none border border-transparent focus:border-[#181818]'}
@@ -118,6 +123,30 @@ const TranslatePage = ()=>{
                         value={userInput}
                         onChange={handleUserInputChange}
                     />
+
+                    <div className={'absolute z-10 bottom-8'}>
+                        <div className={'w-full px-[8px] flex items-center gap-4'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 className="bi bi-volume-up" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                                <path
+                                    d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                                <path
+                                    d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 className="bi bi-clipboard cursor-pointer" viewBox="0 0 16 16"
+                                 onClick={()=>handleCopy(userInput)}
+                            >
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
                 <div className={'w-full flex items-center justify-center'}>
@@ -133,7 +162,7 @@ const TranslatePage = ()=>{
                 <div className={'w-fit mt-[12px] px-[12px] py-[4px] rounded-[24px] bg-[#E7E8EA] text-[#20262E] flex items-center gap-[16px]'}>
                     {langList.map(item => <span key={`out-lang-${item}`} onClick={()=> setOutputLang(item)} className={item === outputLang ? 'px-[8px] py-[4px] bg-[#20262E] text-[#F1FDFF] rounded-[16px]' : 'px-[8px] py-[4px] cursor-pointer'}>{item}</span>)}
                 </div>
-                <div className={'mt-[12px]'}>
+                <div className={'mt-[12px] relative'}>
                     <textarea
                         dir={"auto"}
                         className={'w-full p-[8px] lg:px-[16px] bg-[#F8F8F8] rounded-[8px] resize-none outline-none border border-transparent focus:border-[#181818]'}
@@ -142,6 +171,29 @@ const TranslatePage = ()=>{
                         value={outputText}
                         disabled
                     />
+                    <div className={'absolute z-10 bottom-8'}>
+                        <div className={'w-full px-[8px] flex items-center gap-4'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 className="bi bi-volume-up" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                                <path
+                                    d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                                <path
+                                    d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 className="bi bi-clipboard cursor-pointer" viewBox="0 0 16 16"
+                                 onClick={()=>handleCopy(outputText)}
+                            >
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
