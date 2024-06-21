@@ -122,7 +122,7 @@ const RewritePage = ()=>{
                             <Select
                                 options={languages.map(i=>({value : i , label : i}))}
                                 value={{value : selectedLanguage , label : selectedLanguage}}
-                                onChange={(e)=> setSelectedLanguage(e.value)}
+                                onChange={(e:any)=> setSelectedLanguage(e.value)}
                                 isSearchable={true}
                             />
                         </div>
