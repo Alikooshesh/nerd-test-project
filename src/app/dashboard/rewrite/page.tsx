@@ -11,7 +11,7 @@ import ReactSwitch from "react-switch";
 
 const RewritePage = ()=>{
 
-    const [accessToken,setAccessToken] = useLocalStorage('accessToken', null)
+    const [accessToken,setAccessToken] = useLocalStorage('accessToken', undefined)
 
     const [userInput,setUserInput] = useState("")
 

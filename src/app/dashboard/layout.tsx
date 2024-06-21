@@ -11,7 +11,7 @@ interface Iprops{
 
 const DashboardLayout = ({children}:Iprops)=>{
 
-    const [accessToken, setAccessToken] = useLocalStorage('accessToken', null)
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', undefined)
 
     const pathname = usePathname()
 

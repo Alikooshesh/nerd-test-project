@@ -7,7 +7,7 @@ import useLocalStorage from "react-use-localstorage";
 
 const TranslatePage = ()=>{
 
-    const [accessToken,setAccessToken] = useLocalStorage('accessToken', null)
+    const [accessToken,setAccessToken] = useLocalStorage('accessToken', undefined)
 
     const [userInput,setUserInput] = useState("")
     const [outputText , setOutputText] = useState("")
