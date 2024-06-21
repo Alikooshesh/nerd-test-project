@@ -8,6 +8,7 @@ import useLocalStorage from "react-use-localstorage";
 import Select from "react-select";
 import {AIModels, languages} from "@/utils/globalVariables";
 import ReactSwitch from "react-switch";
+import {IrewriteMessage} from "@/interfaces/i";
 
 const RewritePage = ()=>{
 
@@ -21,7 +22,7 @@ const RewritePage = ()=>{
 
     const [messages,setMessages] = useState<string>("")
 
-    const [finalMessages , setFinalMessages] = useState<any>([])
+    const [finalMessages , setFinalMessages] = useState<IrewriteMessage[]>([])
 
     const postNewMessage = (text:string)=>{
         setMessages("")
